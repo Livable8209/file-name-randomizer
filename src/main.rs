@@ -4,13 +4,21 @@
 // (this is made for tetrio plus but it should just work fine for any other files)
 
 use std::error::Error;
-use std::fs::{self};
+use std::{fs, io};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let stuff = fs::read_dir("test_files/")?;
-    for dirres in stuff {
-        let path = dirres?.path();
-        println!("{:?}", path.file_name().expect("Unwrapped .."));
+    let stuff = match fs::read_dir("test_files") {
+        Ok(dir) => dir,
+        Err(err) => panic!("We hit an error! {}", err), // if we ever hit this, we better stop
+    };
+    let stuff = stuff
+        .map(|result| result.map(|path| path.path()))
+        .collect::<Result<Vec<_>, io::Error>>();
+
+    let files = stuff.unwrap();
+
+    for file in files {
+        println!("{:?}", file.file_name());
     }
     Ok(())
 }
