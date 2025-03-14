@@ -7,10 +7,10 @@ use std::error::Error;
 use std::fs::{self};
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let stuff = fs::read_dir(".")?;
+    let stuff = fs::read_dir("test_files/")?;
     for dirres in stuff {
-        let unwrapped = dirres?;
-        println!("{:?}", unwrapped.path());
+        let path = dirres?.path();
+        println!("{:?}", path);
     }
     Ok(())
 }
