@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let stuff = fs::read_dir("test_files/")?;
     for dirres in stuff {
         let path = dirres?.path();
-        println!("{:?}", path);
+        println!("{:?}", path.file_name().expect("Unwrapped .."));
     }
     Ok(())
 }
