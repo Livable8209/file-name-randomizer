@@ -4,7 +4,7 @@
 // (this is made for tetrio plus but it should just work fine for any other files)
 
 // ok i know this code is terrible but, in my defense
-//
+// im learning so yeah
 
 use rand::prelude::*;
 use std::error::Error;
