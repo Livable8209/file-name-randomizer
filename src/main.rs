@@ -3,6 +3,9 @@
 // then renames those files to the collection of name randomly
 // (this is made for tetrio plus but it should just work fine for any other files)
 
+// ok i know this code is terrible but, in my defense
+//
+
 use rand::prelude::*;
 use std::error::Error;
 use std::path::Path;
@@ -27,6 +30,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .map(|result| result.map(|path| path.path()))
         .collect::<Result<Vec<_>, io::Error>>();
 
+    //This will always write to your current working dir since im too lazy to implement user inputted dirs
     if !fs::exists("randomized_sounds")? {
         println!("Making randomized_sounds directory");
         let res = fs::create_dir("randomized_sounds");
@@ -51,6 +55,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     for file in &files {
         let end_path = {
             let rand_file_name = file_names.pop().unwrap();
+            println!(
+                "Renamed {} to {}",
+                file.file_name().unwrap().to_string_lossy(),
+                &rand_file_name
+            );
             format!("{}/{}", randomized_dir.to_string_lossy(), rand_file_name)
         };
 
@@ -62,8 +71,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             )
         }
     }
-
-    dbg!(file_names);
 
     Ok(())
 }
