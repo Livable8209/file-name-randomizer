@@ -49,13 +49,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     file_names.shuffle(&mut rng);
 
     for file in &files {
-        let end_path = format!(
-            "{}/{}",
-            randomized_dir.to_string_lossy(),
-            file.file_name()
-                .expect("unwrapped .. somehow?")
-                .to_string_lossy()
-        );
+        let end_path = {
+            let rand_file_name = file_names.pop().unwrap();
+            format!("{}/{}", randomized_dir.to_string_lossy(), rand_file_name)
+        };
 
         let file_copy = fs::copy(file, end_path);
         if file_copy.is_err() {
